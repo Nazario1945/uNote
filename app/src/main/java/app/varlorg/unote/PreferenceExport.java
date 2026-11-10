@@ -261,6 +261,14 @@ public class PreferenceExport extends PreferenceActivity {
                     if ( pref.getBoolean("pref_notifications", true)) {
                         customToast("Notas protegidas exportadas a: " + path);
                     }
+                    new android.app.AlertDialog.Builder(PreferenceExport.this)
+                        .setTitle("Copia de seguridad")
+                        .setMessage("¿Querés guardar una copia de seguridad en Descargas?")
+                        .setPositiveButton("Sí", (dialog, which) -> {
+                            filePicker(android.os.Environment.getExternalStoragePublicDirectory(android.os.Environment.DIRECTORY_DOWNLOADS).toString(), false, "zip");
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
                 }
                 else
                 {
