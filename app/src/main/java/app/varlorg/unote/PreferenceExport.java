@@ -280,17 +280,6 @@ public class PreferenceExport extends PreferenceActivity {
             }
         });
 
-        android.preference.Preference buttonImportProtected = findPreference("buttonImportProtected");
-        buttonImportProtected.setOnPreferenceClickListener(new android.preference.Preference.OnPreferenceClickListener()
-        {
-            @Override
-            public boolean onPreferenceClick(android.preference.Preference arg0)
-            {
-                filePicker(android.os.Environment.getExternalStoragePublicDirectory(android.os.Environment.DIRECTORY_DOWNLOADS).toString(), true, "zip");
-                return(false);
-            }
-        });
-
         android.preference.Preference buttonExportAllNotes = findPreference("buttonExportAllNotes");
         buttonExportAllNotes.setOnPreferenceClickListener(new android.preference.Preference.OnPreferenceClickListener()
         {
