@@ -246,6 +246,32 @@ public class PreferenceExport extends PreferenceActivity {
             }
         });
 
+        android.preference.Preference buttonExportProtected = findPreference("buttonExportProtected");
+        buttonExportProtected.setOnPreferenceClickListener(new android.preference.Preference.OnPreferenceClickListener()
+        {
+            @Override
+            public boolean onPreferenceClick(android.preference.Preference arg0)
+            {
+                NotesBDD noteBdd = new NotesBDD(PreferenceExport.this);
+                noteBdd.open();
+                String path = noteBdd.exportProtectedNotes(PreferenceExport.this);
+                noteBdd.close();
+                if (path != null)
+                {
+                    if ( pref.getBoolean("pref_notifications", true)) {
+                        customToast("Notas protegidas exportadas a: " + path);
+                    }
+                }
+                else
+                {
+                    if ( pref.getBoolean("pref_notifications", true)) {
+                        customToast("Error al exportar notas protegidas: " + path);
+                    }
+                }
+                return(false);
+            }
+        });
+
         android.preference.Preference buttonExportAllNotes = findPreference("buttonExportAllNotes");
         buttonExportAllNotes.setOnPreferenceClickListener(new android.preference.Preference.OnPreferenceClickListener()
         {

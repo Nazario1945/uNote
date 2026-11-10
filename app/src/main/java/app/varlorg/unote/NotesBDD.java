@@ -644,6 +644,45 @@ public class NotesBDD
         return(file.toString());
     }
 
+    public String exportProtectedNotes(Context context)
+    {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        boolean exportDate = pref.getBoolean("pref_export_note_date", true);
+        boolean exportTitle = pref.getBoolean("pref_export_note_title", true);
+        
+        String destFolder = "unote_protected";
+        if ( pref.getBoolean("pref_export_note_folder_timestamped", false))
+        {
+            destFolder += "_" + new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Calendar.getInstance().getTime());
+        }
+        File externalFilesDir = context.getExternalFilesDir(null);
+        String outputDir = pref.getString("output_backup_dir", externalFilesDir.toString());
+        File destinationPath = new File(outputDir, destFolder);
+        
+        if( ! destinationPath.exists()) {
+            destinationPath.mkdirs();
+        }
+        try {
+            String selectQuery = "SELECT  * FROM " + TABLE_NOTES + " WHERE " + COL_PASSWORD + " IS NOT NULL ";
+            if (this.maBaseSQLite == null ) return "null";
+            if (this.bdd == null ) return "null2";
+            Cursor c = this.bdd.rawQuery(selectQuery, null);
+            int noteExportedNb = 0;
+            if (c.moveToFirst())
+            {
+                do
+                {
+                    exportNoteTo(context, c.getInt(NUM_COL_ID), exportDate, exportTitle, destinationPath);
+                    noteExportedNb++;
+                } while (c.moveToNext());
+            }
+            c.close();
+        } catch (Exception e) {
+            Log.e(BuildConfig.APPLICATION_ID, "Exception exportProtectedNotes", e);
+        }
+        return(destinationPath.toString());
+    }
+
     public String exportAllNotes(Context context)
     {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);

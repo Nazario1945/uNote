@@ -45,6 +45,10 @@
             android:key="buttonExportAllNotes"
             android:summary="@string/pref_export_all_notes_summary"
             android:title="@string/pref_export_all_notes" />
+        <Preference
+            android:key="buttonExportProtected"
+            android:summary="Exportar solamente las notas que tienen contraseña"
+            android:title="Exportar Notas Protegidas" />
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="pref_export_note_folder_timestamped"
